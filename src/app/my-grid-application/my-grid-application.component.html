@@ -1,0 +1,32 @@
+<div class="container-fluid">
+  <!--<app-new-c></app-new-c> -->
+
+  <div class="container-fluid" style="padding-bottom:20px;">
+    <h1>Simple ag-Grid</h1>
+    <button class="btn btn-success" type="button" [routerLink]="['/addform']">Add</button>
+    <button class="btn btn-danger" (click)="onRemoveSelected()">Delete</button>
+    <button class="btn btn-primary">Edit</button>
+    <button class="btn btn-primary">Flights</button>
+    <button class="btn btn-primary">Copy</button>
+    <button class="btn btn-primary">Change Service</button>
+    <button class="btn btn-primary">Un-Receive</button>
+    <button class="btn btn-primary">Add Delayd Event</button>
+    <!--<button class="btn btn-primary" (click)="onGet()">GetData</button> -->
+  </div>
+
+
+  <ag-grid-angular style="width: 1300px; height: 600px;"
+                   class="ag-fresh"
+                   [rowData]="rowData"
+                   [columnDefs]="columnDefs"
+                   [gridOptions]="gridOptions"
+                   (gridReady)="onGridReady($event)"
+                   [rowSelection]="rowSelection"
+                   
+                   enableSorting
+                   enableFilter>
+
+  </ag-grid-angular>
+
+
+</div>

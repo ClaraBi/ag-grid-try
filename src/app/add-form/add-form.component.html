@@ -1,0 +1,93 @@
+<div class="container-fluid" style="padding-top:20px;">
+  <h3 class="col-md-12" style="background-color:aliceblue">Waybills</h3>
+  <form>
+    <div class="col-md-12">
+      <div class="form-group col-md-3">
+        <label for="InputMAWB">MAWB</label>
+        <input type="text" class="form-control" id="InputMAWB" placeholder="Enter MAWB">
+
+      </div>
+      <div class="form-group col-md-3">
+        <label for="InputDate">Tender Date</label>
+        <input type="date" class="form-control" id="InputDate">
+      </div>
+      <div class="form-group col-md-3">
+        <label for="InputCreated">Cteated</label>
+        <input type="text" class="form-control" id="InputCreated" placeholder="Enter Created">
+
+      </div>
+      <div class="form-group col-md-3">
+        <label for="InputModified">Modified</label>
+        <input type="text" class="form-control" id="InputModified" placeholder="Enter Modified">
+
+      </div>
+
+    </div>
+
+    <div class="col-md-12">
+
+      <div class="form-group col-md-6">
+        <label for="InputShipper">Shipper</label>
+        <input type="text" class="form-control" id="InputShipper" placeholder="Enter Shipper">
+
+      </div>
+      <div class="form-group col-md-6">
+        <label for="InputIssued">Issued By</label>
+        <input type="text" class="form-control" id="InputIssued" placeholder="Enter Issued By">
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="InputLMC">LMC</label>
+        <input type="text" class="form-control" id="InputLMC" placeholder="Enter LMC">
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="AccountTextarea">Account Information</label>
+        <textarea class="form-control" id="AccountTextarea" rows="3"></textarea>
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="InputConsignee">Consignee</label>
+        <input type="text" class="form-control" id="InputConsignee" placeholder="Consignee">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="InputConsignee">Consignee</label>
+        <input type="text" class="form-control" id="InputConsignee" placeholder="Consignee">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="InputCarrier">Issuing Carrier's Agent</label>
+        <input type="text" class="form-control" id="InputCarrier" placeholder="Issuing Carrier's Agent">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="InputHandling">Handling Information</label>
+        <input type="text" class="form-control" id="InputHandling" placeholder="Handling Information">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="InputUCR">URC Number</label>
+        <input type="text" class="form-control" id="InputUCR" placeholder="URC Number">
+      </div>
+
+
+    </div>
+
+    <div class="col-md-12">
+      <div class="col-md-9" style="border:1px solid aliceblue; background-color:aliceblue">
+        <h4 style="text-align:center; ">Waybill Items</h4>
+        <button class="btn btn-primary">Edit</button>
+        <button class="btn btn-primary">Re-calculate Items</button>
+        <button class="btn btn-primary">Apply Rate to All</button>
+        <br />
+        <app-waybill-items-grid></app-waybill-items-grid>
+      </div>
+    </div>
+
+
+
+    <button type="submit" class="btn btn-success">Submit</button>
+    <button type="submit" class="btn btn-warning">Cancel</button>
+  </form>
+
+
+</div>
+
+
