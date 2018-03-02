@@ -8,6 +8,6 @@ export class DataService {
 	constructor(private http:Http) {}
 
     getData() {
-      return this.http.get('assets/ngGridSampleData.json');
+      return this.http.get('assets/data.json');
     }
 }

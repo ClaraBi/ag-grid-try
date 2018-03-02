@@ -3,8 +3,11 @@
     "",
     "\\src",
     "\\src\\app",
-    "\\src\\app\\my-grid-application"
+    "\\src\\app\\my-grid-application",
+    "\\src\\app\\services",
+    "\\src\\app\\waybill-items-grid",
+    "\\src\\assets"
   ],
-  "SelectedNode": "\\src\\app\\my-grid-application",
+  "SelectedNode": "\\src\\app\\add-form",
   "PreviewInSolutionExplorer": false
 }
