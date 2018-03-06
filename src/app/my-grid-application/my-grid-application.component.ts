@@ -13,7 +13,8 @@ import "ag-grid-enterprise";
 
 @Component({
     selector: 'app-my-grid-application',
-    templateUrl: './my-grid-application.component.html'
+    templateUrl: './my-grid-application.component.html',
+    styleUrls:['./my-grid-application.component.css']
 })
 export class MyGridApplicationComponent  {
     gridOptions: GridOptions;
@@ -31,6 +32,8 @@ export class MyGridApplicationComponent  {
     rowDeselection
     paginationPageSize
     maxConcurrentDatasourceRequests
+
+
   
 
    
@@ -98,6 +101,8 @@ export class MyGridApplicationComponent  {
         this.infiniteInitialRowCount = 1;
         this.maxBlocksInCache = 2;
 
+      
+
        
 
         this.getRowNodeId = function (item) {
@@ -125,7 +130,7 @@ export class MyGridApplicationComponent  {
       this.gridColumnApi = params.columnApi;
 
       this.http
-        .get('assets/data.json')
+        .get('assets/ngGridSampleData.json')
         .subscribe(data => {
           var newData = data.json();
           
