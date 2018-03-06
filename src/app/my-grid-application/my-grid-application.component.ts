@@ -31,6 +31,7 @@ export class MyGridApplicationComponent  {
     rowDeselection
     paginationPageSize
     maxConcurrentDatasourceRequests
+  
 
    
 
@@ -69,7 +70,11 @@ export class MyGridApplicationComponent  {
                 filterOptions: ["equals", "lessThan", "greaterThan"]
               }
             },
-            { headerName: "Date", field: "date", suppressFilter: true },
+            {
+              headerName: "Date(MM/DD/YYYY)",
+              field: "date",
+              suppressFilter: true
+            },
             { headerName: "Number", field: "number" },
             {
               headerName: "ID",
@@ -92,7 +97,8 @@ export class MyGridApplicationComponent  {
         this.maxConcurrentDatasourceRequests = 2;
         this.infiniteInitialRowCount = 1;
         this.maxBlocksInCache = 2;
-        
+
+       
 
         this.getRowNodeId = function (item) {
           return item.id;
@@ -119,7 +125,7 @@ export class MyGridApplicationComponent  {
       this.gridColumnApi = params.columnApi;
 
       this.http
-        .get('assets/ngGridSampleData.json')
+        .get('assets/data.json')
         .subscribe(data => {
           var newData = data.json();
           
@@ -152,7 +158,7 @@ export class MyGridApplicationComponent  {
   
     
      
-    selectAllRows() {
+   /* selectAllRows() {
         this.gridOptions.api.selectAll();
     }
 
@@ -161,7 +167,7 @@ export class MyGridApplicationComponent  {
       this.gridApi.updateRowData({ remove: selectedRowData });
     }
 
-    
+    */
    
 }
 
@@ -175,15 +181,36 @@ function sortData(sortModel, data) {
     return data;
   }
   var resultOfSort = data.slice();
+  //console.log(resultOfSort);
+
   resultOfSort.sort(function (a, b) {
     for (var k = 0; k < sortModel.length; k++) {
+
       var sortColModel = sortModel[k];
+      //console.log(sortColModel);
       var valueA = a[sortColModel.colId];
+      //console.log("valueA: "+valueA);
       var valueB = b[sortColModel.colId];
+      //console.log("valueB: " + valueB);
       if (valueA == valueB) {
         continue;
       }
       var sortDirection = sortColModel.sort === "asc" ? 1 : -1;
+      //console.log("sortDirection: " + sortDirection);
+
+      if (sortColModel.colId == "date") {
+        //below two lines is for date formate in MM/DD/YYYY
+        valueA = new Date(valueA);
+        valueB = new Date(valueB);
+
+
+        //below two lines is for date formate in DD/MM/YYYY
+        //valueA = valueA.split('/').reverse().join('');        
+        //valueB = valueB.split('/').reverse().join('');
+        
+
+      }
+
       if (valueA > valueB) {
         return sortDirection;
       } else {
@@ -265,3 +292,5 @@ function filterData(filterModel, data) {
   return resultOfFilter;
  
 }
+
+
