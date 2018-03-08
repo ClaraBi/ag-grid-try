@@ -8,7 +8,8 @@
     "id": "7897244",
     "location": "edision",
     "notes": "some notes",
-    "extra": "extra messages"
+    "extra": "extra messages",
+    "refunded": true
   },
   {
     "make": "Ford2",
@@ -19,7 +20,8 @@
     "id": "7897245",
     "location": "edision",
     "notes": "some notes",
-    "extra": "extra messages"
+    "extra": "extra messages",
+    "refunded": true
   },
   {
     "make": "Porche3",
@@ -30,7 +32,8 @@
     "id": "7897246",
     "location": "edision",
     "notes": "some notes",
-    "extra": "extra messages"
+    "extra": "extra messages",
+    "refunded": false
   },
   {
     "make": "Ford4",
@@ -41,7 +44,8 @@
     "id": "7897247",
     "location": "edision",
     "notes": "some notes",
-    "extra": "extra messages"
+    "extra": "extra messages",
+    "refunded": false
   },
   {
     "make": "Toyota5",
@@ -52,7 +56,8 @@
     "id": "7897248",
     "location": "edision",
     "notes": "some notes",
-    "extra": "extra messages"
+    "extra": "extra messages",
+    "refunded": true
   },
   {
     "make": "Ford6",
@@ -63,7 +68,8 @@
     "id": "7897249",
     "location": "edision",
     "notes": "some notes",
-    "extra": "extra messages"
+    "extra": "extra messages",
+    "refunded": false
   },
   {
     "make": "Toyota5",
@@ -74,7 +80,8 @@
     "id": "7897248",
     "location": "edision",
     "notes": "some notes",
-    "extra": "extra messages"
+    "extra": "extra messages",
+    "refunded": true
   },
   {
     "make": "Ford6",
@@ -85,7 +92,8 @@
     "id": "7897249",
     "location": "edision",
     "notes": "some notes",
-    "extra": "extra messages"
+    "extra": "extra messages",
+    "refunded": false
   },
   {
     "make": "Toyota5",
@@ -96,7 +104,8 @@
     "id": "7897248",
     "location": "edision",
     "notes": "some notes",
-    "extra": "extra messages"
+    "extra": "extra messages",
+    "refunded": true
   },
   {
     "make": "Ford6",
@@ -107,6 +116,7 @@
     "id": "7897249",
     "location": "edision",
     "notes": "some notes",
-    "extra": "extra messages"
+    "extra": "extra messages",
+    "refunded": true
   }
 ]

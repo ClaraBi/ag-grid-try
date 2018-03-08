@@ -4,10 +4,11 @@
     "\\src",
     "\\src\\app",
     "\\src\\app\\my-grid-application",
+    "\\src\\app\\red-component",
     "\\src\\app\\services",
     "\\src\\app\\waybill-items-grid",
     "\\src\\assets"
   ],
-  "SelectedNode": "\\src\\favicon.ico",
+  "SelectedNode": "\\src\\app\\my-grid-application\\my-grid-application.component.css",
   "PreviewInSolutionExplorer": false
 }

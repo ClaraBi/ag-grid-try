@@ -11,7 +11,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { WaybillItemsGridComponent } from './waybill-items-grid/waybill-items-grid.component';
 
 import { HttpModule } from '@angular/http';
-import { DataService } from './services/data.service';
+
+import { CheckboxCellComponent } from './checkbox-cell/checkbox-cell.component';
 
 const appRoutes: Routes = [
   { path: '', component: MyGridApplicationComponent },
@@ -26,7 +27,11 @@ const appRoutes: Routes = [
         RedComponentComponent,
        
         AddFormComponent,
-        WaybillItemsGridComponent
+        WaybillItemsGridComponent,
+        CheckboxCellComponent
+  ],
+    entryComponents: [
+      CheckboxCellComponent
     ],
     imports: [
         BrowserModule,
@@ -36,7 +41,7 @@ const appRoutes: Routes = [
         RouterModule.forRoot(appRoutes),
         HttpModule
     ],
-    providers: [DataService],
+    providers: [],
     bootstrap: [AppComponent]
 })
 export class AppModule {

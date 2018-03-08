@@ -1,10 +1,12 @@
 import {Component, OnInit} from "@angular/core";
-import {RedComponentComponent} from "../red-component/red-component.component";
+import { RedComponentComponent } from "../red-component/red-component.component";
+
+import { CheckboxCellComponent } from '../checkbox-cell/checkbox-cell.component';
 
 import { GridOptions } from "ag-grid/main";
 
 
-import { DataService } from '../services/data.service';
+//import { DataService } from '../services/data.service';
 import { Response } from '@angular/http';
 import { Http } from '@angular/http';
 
@@ -45,7 +47,13 @@ export class MyGridApplicationComponent  {
         
 
         this.columnDefs = [
-          { headerName: 'Refunded', field: 'refunded', checkboxSelection: true, suppressFilter: true},
+          {
+            headerName: 'Refunded', field: 'refunded', suppressFilter: true,
+            cellRendererFramework: CheckboxCellComponent
+            
+          },
+
+          //checkboxSelection: true, 
           {
               headerName: "Make", field: "make",
               filter: 'agTextColumnFilter',
@@ -296,6 +304,10 @@ function filterData(filterModel, data) {
   
   return resultOfFilter;
  
+}
+
+function RefundedCellRenderer(params) {
+  return params.value;
 }
 
 
