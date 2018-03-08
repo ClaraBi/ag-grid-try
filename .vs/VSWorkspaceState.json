@@ -3,12 +3,12 @@
     "",
     "\\src",
     "\\src\\app",
+    "\\src\\app\\checkbox-cell",
     "\\src\\app\\my-grid-application",
     "\\src\\app\\red-component",
-    "\\src\\app\\services",
     "\\src\\app\\waybill-items-grid",
     "\\src\\assets"
   ],
-  "SelectedNode": "\\src\\app\\my-grid-application\\my-grid-application.component.css",
+  "SelectedNode": "\\src\\assets\\data.json",
   "PreviewInSolutionExplorer": false
 }

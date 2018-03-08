@@ -49,7 +49,9 @@ export class MyGridApplicationComponent  {
         this.columnDefs = [
           {
             headerName: 'Refunded', field: 'refunded', suppressFilter: true,
-            cellRendererFramework: CheckboxCellComponent
+            cellRendererFramework: CheckboxCellComponent,
+            //headerCheckboxSelection: true,
+            //checkboxSelection: true
             
           },
 
