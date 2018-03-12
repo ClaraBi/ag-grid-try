@@ -9,6 +9,6 @@
     "\\src\\app\\waybill-items-grid",
     "\\src\\assets"
   ],
-  "SelectedNode": "\\src\\assets\\data.json",
+  "SelectedNode": "\\src\\app\\my-grid-application\\my-grid-application.component.ts",
   "PreviewInSolutionExplorer": false
 }

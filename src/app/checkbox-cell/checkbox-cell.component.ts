@@ -7,7 +7,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 })
 export class CheckboxCellComponent {
 
-  @ViewChild('.checkbox') checkbox: ElementRef;
+  @ViewChild('checkbox') checkbox: ElementRef;
 
   public params: any;
  

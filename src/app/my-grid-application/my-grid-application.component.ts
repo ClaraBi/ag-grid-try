@@ -49,8 +49,8 @@ export class MyGridApplicationComponent  {
         this.columnDefs = [
           {
             headerName: 'Refunded', field: 'refunded', suppressFilter: true,
-            cellRendererFramework: CheckboxCellComponent,
-            //headerCheckboxSelection: true,
+           cellRendererFramework: CheckboxCellComponent,
+           
             //checkboxSelection: true
             
           },
@@ -140,7 +140,7 @@ export class MyGridApplicationComponent  {
       this.gridColumnApi = params.columnApi;
 
       this.http
-        .get('assets/ngGridSampleData.json')
+        .get('assets/data.json')
         .subscribe(data => {
           var newData = data.json();
           
@@ -277,9 +277,9 @@ function filterData(filterModel, data) {
       
     }
 
-    if (filterModel.make) {
+    if (filterModel.id) {
       //console.log(filterModel.make);
-      if (item.make.toLowerCase().indexOf(filterModel.make.filter) == -1) {
+      if (item.id.indexOf(filterModel.id.filter) == -1) {
         //console.log("filterModel.make.filter: "+filterModel.make.filter);
         //console.log("item.make: "+item.make);
         //console.log(filterModel.make.filter.indexOf(item.make));
