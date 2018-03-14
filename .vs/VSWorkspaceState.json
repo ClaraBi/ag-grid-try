@@ -1,13 +1,13 @@
 {
   "ExpandedNodes": [
     "",
+    "\\node_modules",
+    "\\node_modules\\ag-grid",
+    "\\node_modules\\ag-grid\\dist",
+    "\\node_modules\\ag-grid\\dist\\styles",
     "\\src",
     "\\src\\app",
-    "\\src\\app\\checkbox-cell",
-    "\\src\\app\\my-grid-application",
-    "\\src\\app\\red-component",
-    "\\src\\app\\waybill-items-grid",
-    "\\src\\assets"
+    "\\src\\app\\my-grid-application"
   ],
   "SelectedNode": "\\src\\app\\my-grid-application\\my-grid-application.component.ts",
   "PreviewInSolutionExplorer": false

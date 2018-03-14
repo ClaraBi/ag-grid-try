@@ -35,7 +35,7 @@ export class MyGridApplicationComponent  {
     paginationPageSize
     maxConcurrentDatasourceRequests
 
-
+  
   
 
    
@@ -49,9 +49,9 @@ export class MyGridApplicationComponent  {
         this.columnDefs = [
           {
             headerName: 'Refunded', field: 'refunded', suppressFilter: true,
-           cellRendererFramework: CheckboxCellComponent,
+           //cellRendererFramework: CheckboxCellComponent,
            
-            //checkboxSelection: true
+            checkboxSelection: true
             
           },
 
@@ -88,7 +88,7 @@ export class MyGridApplicationComponent  {
               field: "date",
               suppressFilter: true
             },
-            { headerName: "Number", field: "number" },
+            { headerName: "Number", field: "number", suppressFilter: true},
             {
               headerName: "ID",
               field: "id",
@@ -118,6 +118,8 @@ export class MyGridApplicationComponent  {
         this.getRowNodeId = function (item) {
           return item.id;
         };
+
+        //this.gridOptions.rowStyle = { background: 'Aliceblue' };
       
         
 
@@ -126,6 +128,8 @@ export class MyGridApplicationComponent  {
           { make: "1Toyota", model: "Celica", price: 35700, date: "01/23/1993", number: 3, id: "7897243", location: "edision", notes: "some notes", extra: "extra messages" }
 
         ];*/
+
+
         
 
         
@@ -140,7 +144,7 @@ export class MyGridApplicationComponent  {
       this.gridColumnApi = params.columnApi;
 
       this.http
-        .get('assets/data.json')
+        .get('assets/ngGridSampleData.json')
         .subscribe(data => {
           var newData = data.json();
           
