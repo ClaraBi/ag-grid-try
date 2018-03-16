@@ -35,8 +35,7 @@ export class MyGridApplicationComponent  {
     paginationPageSize
     maxConcurrentDatasourceRequests
 
-  
-  
+
 
    
 
@@ -49,9 +48,9 @@ export class MyGridApplicationComponent  {
         this.columnDefs = [
           {
             headerName: 'Refunded', field: 'refunded', suppressFilter: true,
-           //cellRendererFramework: CheckboxCellComponent,
+           cellRendererFramework: CheckboxCellComponent,
            
-            checkboxSelection: true
+            //checkboxSelection: true
             
           },
 
@@ -103,6 +102,9 @@ export class MyGridApplicationComponent  {
             { headerName: "extra", field: "extra" }
         ];
 
+
+      
+
         this.rowSelection = "multiple";
         this.rowModelType = "infinite";
         this.paginationPageSize = 100;
@@ -144,8 +146,11 @@ export class MyGridApplicationComponent  {
       this.gridColumnApi = params.columnApi;
 
       this.http
-        .get('assets/ngGridSampleData.json')
+        .get('assets/data.json')
         .subscribe(data => {
+
+          console.log(data);
+
           var newData = data.json();
           
           newData.forEach(function (data, index) {
@@ -157,6 +162,18 @@ export class MyGridApplicationComponent  {
             getRows: function (params) {
               console.log("asking for " + params.startRow + " to " + params.endRow);
               setTimeout(function () {
+
+                //var str=JSON.stringify(params.sortModel);
+                console.log("sortModel: ", JSON.stringify(params.sortModel));
+                //var try2=params.sortModel;
+                //var try3 = try2[0];
+                //console.log("try3", try3);
+                //console.log("try3.colId",try3.sort);
+
+                console.log("filterModel: ", JSON.stringify(params.filterModel));
+                //console.log(params.filterModel);
+                console.log("--------------------------");
+
                 var dataAfterSortingAndFiltering = sortAndFilter(newData, params.sortModel, params.filterModel);
                 var rowsThisPage = dataAfterSortingAndFiltering.slice(params.startRow, params.endRow);
                 var lastRow = -1;
@@ -191,6 +208,10 @@ export class MyGridApplicationComponent  {
 }
 
 function sortAndFilter(allOfTheData, sortModel, filterModel) {
+
+
+  
+
   return sortData(sortModel, filterData(filterModel, allOfTheData));
 }
 

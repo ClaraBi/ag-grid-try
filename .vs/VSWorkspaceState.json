@@ -1,10 +1,6 @@
 {
   "ExpandedNodes": [
     "",
-    "\\node_modules",
-    "\\node_modules\\ag-grid",
-    "\\node_modules\\ag-grid\\dist",
-    "\\node_modules\\ag-grid\\dist\\styles",
     "\\src",
     "\\src\\app",
     "\\src\\app\\my-grid-application"
