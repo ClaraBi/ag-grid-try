@@ -1,0 +1,102 @@
+
+.customHeaderMenuButton
+{
+  display:inline;
+  float:right;
+}
+.customHeaderLabel {
+  display: inline;
+  float: left;
+}
+
+.ag-icon-columns::after {
+  display:inline-block;
+  position:relative;
+  left:15px;
+  bottom:4px;
+  content: 'Columns';
+  
+}
+.ag-tab-selected {
+  width: 30px;
+  clear: both;
+  position: relative;
+}
+
+.ag-icon-columns::after {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  
+}
+
+
+
+/*.ag-fresh .ag-menu .ag-tab {
+  padding: 6px 72px 6px 8px;
+  margin: 2px 2px 0px 2px;
+  display: inline-block;
+  border-right: 1px solid transparent;
+  border-left: 1px solid transparent;
+  border-top: 1px solid transparent;
+  border-top-right-radius: 2px;
+  border-top-left-radius: 2px;
+  clear: both;
+  position: relative;
+}
+*/
+.ag-fresh .ag-menu .ag-tab {
+  padding: 6px 76px 6px 8px;
+  margin-right:-13px;
+  display:block;
+  border-right: 1px solid transparent;
+  border-left: 1px solid transparent;
+  border-top: 1px solid transparent;
+  border-top-right-radius: 2px;
+  border-top-left-radius: 2px;
+  clear:left;
+  position: relative;
+}
+
+
+
+
+.ag-tab-body {
+  float: right;
+  position: relative;
+}
+.ag-tab-header {
+  display:inline-block;
+  float:left;
+}
+
+/*remove 'container' in filter*/
+/*.ag-filter-select {
+  display: none;
+}*/
+.ag-icon-filter::after {
+  display: inline-block;
+  position: relative;
+  left: 15px;
+  bottom: 4px;
+  content: 'Filter';
+}
+
+.ag-icon-menu::after {
+  display: inline-block;
+  position: relative;
+  left: 15px;
+  bottom: 4px;
+  content: 'Sort';
+}
+
+.customSortDownLabel {
+  padding:0;
+  
+}
+.customSortUpLabel {
+  padding:0;
+}
+.customSortRemoveLabel {
+  padding:0;
+}
