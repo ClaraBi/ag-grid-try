@@ -8,7 +8,11 @@ import { GridOptions } from "ag-grid/main";
 
 //import { DataService } from '../services/data.service';
 
+<<<<<<< HEAD
 import { Http, RequestOptions, Headers, Response, URLSearchParams  } from '@angular/http';
+=======
+import { Http, RequestOptions, Headers, Response  } from '@angular/http';
+>>>>>>> 8215b0738cc673cc912c1445edb25d64f23a9a45
 
 import "ag-grid-enterprise";
 
@@ -247,10 +251,48 @@ export class MyGridApplicationComponent  {
         console.log("filterModel: ", JSON.stringify(params.filterModel));
       });
 
+<<<<<<< HEAD
    
   
    /*  this.http
         .get('assets/db.json')
+=======
+      let URL = 'assets/data.json';
+      let requestOptions = new RequestOptions();
+      requestOptions.headers = new Headers({
+        'Content-Type': 'application/json',
+        'sort': params.sortModel,
+        'filter': params.filterModel
+      });
+      this.http.get(URL, requestOptions).subscribe(data => {
+
+        console.log(requestOptions);
+        var newData = data.json();
+        newData.forEach(function (data, index) {
+          newData.id = "R" + (index + 1);
+        });
+         var dataSource = {
+          rowCount: null,
+          getRows: function(params) {
+            console.log("asking for " + params.startRow + " to " + params.endRow);
+            setTimeout(function() {
+              var rowsThisPage = newData.slice(params.startRow, params.endRow);
+              var lastRow = -1;
+              if (newData.length <= params.endRow) {
+                lastRow = newData.length;
+              }
+              params.successCallback(rowsThisPage, lastRow);
+            }, 500);
+          }
+        };
+        params.api.setDatasource(dataSource);
+      });
+
+
+  
+     /*this.http
+        .get('assets/data.json')
+>>>>>>> 8215b0738cc673cc912c1445edb25d64f23a9a45
         .subscribe(data => {
 
           console.log(data);
@@ -291,7 +333,11 @@ export class MyGridApplicationComponent  {
           params.api.setDatasource(dataSource);
         });
 
+<<<<<<< HEAD
     */
+=======
+      */
+>>>>>>> 8215b0738cc673cc912c1445edb25d64f23a9a45
       }
 
 

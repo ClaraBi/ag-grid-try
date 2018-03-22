@@ -5,13 +5,22 @@
     "\\node_modules\\ag-grid",
     "\\node_modules\\ag-grid\\dist",
     "\\node_modules\\ag-grid\\dist\\styles",
+<<<<<<< HEAD
     "\\node_modules\\ag-grid\\src",
     "\\node_modules\\ag-grid\\src\\styles",
+=======
+>>>>>>> 8215b0738cc673cc912c1445edb25d64f23a9a45
     "\\src",
     "\\src\\app",
     "\\src\\app\\header-component",
     "\\src\\app\\my-grid-application",
+<<<<<<< HEAD
     "\\src\\app\\service"
   ],
+=======
+    "\\src\\assets"
+  ],
+  "SelectedNode": "\\src\\app\\header-component\\header.component.css",
+>>>>>>> 8215b0738cc673cc912c1445edb25d64f23a9a45
   "PreviewInSolutionExplorer": false
 }

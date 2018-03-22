@@ -28,3 +28,4 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 "# ag-grid" 
 "# ag-grid-try" 
 "# mock-grid-ag" 
+"# mock-grid" 
