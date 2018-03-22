@@ -1,19 +1,20 @@
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
-<div class="container-fluid " >
+<div class="container-fluid ">
   <!--<app-new-c></app-new-c> -->
 
   <div style="padding-bottom:20px; ">
     <h1>Simple ag-Grid</h1>
-    <button class="btn btn-success" type="button" [routerLink]="['/addform']">Add</button>
-    <button class="btn btn-danger" (click)="onRemoveSelected()">Delete</button>
-    <button class="btn btn-warning">Edit</button>
-    <button class="btn btn-primary">Flights</button>
-    <button class="btn btn-primary">Copy</button>
-    <button class="btn btn-primary">Change Service</button>
-    <button class="btn btn-primary">Un-Receive</button>
-    <button class="btn btn-primary">Add Delayd Event</button>
+    <button type="button" [routerLink]="['/addform']">Add</button>
+    <button (click)="onRemoveSelected()">Delete</button>
+    <button >Edit</button>
+    <button>Flights</button>
+    <button>Copy</button>
+    <button>Change Service</button>
+    <button>Un-Receive</button>
+    <button>Add Delayd Event</button>
     <!--<button class="btn btn-primary" (click)="onGet()">GetData</button> -->
   </div>
+
 
 
 
@@ -25,39 +26,33 @@
                    [gridOptions]="gridOptions"
                    (gridReady)="onGridReady($event)"
                    [rowSelection]="rowSelection"
-
-       
                    [getRowNodeId]="getRowNodeId"
-
-                   [paginationPageSize]="paginationPageSize"
-                   
+                  
                    [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests"
                    [cacheOverflowSize]="cacheOverflowSize"
-                  
                    [infiniteInitialRowCount]="infiniteInitialRowCount"
                    [maxBlocksInCache]="maxBlocksInCache"
                    [rowDeselection]="true"
                    [rowModelType]="rowModelType"
-                   
-                  
-                   
                    [enableServerSideSorting]="true"
                    [enableServerSideFilter]="true"
-                   
-
-                   
                    enableSorting
                    enableFilter
-
                    [enableRangeSelection]="true"
                    [enableColResize]="true"
+                   [suppressMenuHide]="true"
+                   [frameworkComponents]="frameworkComponents"
+                   [defaultColDef]="defaultColDef"
 
-                   
+                   [getMainMenuItems]="getMainMenuItems"
+
+                   [paginationPageSize]="paginationPageSize"
                    >
+
 
   </ag-grid-angular>
 
-
+  <!--[headerHeight]="headerHeight"-->
 
 
 </div>

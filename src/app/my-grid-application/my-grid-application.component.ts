@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import { Component, OnInit, ViewEncapsulation} from "@angular/core";
 import { RedComponentComponent } from "../red-component/red-component.component";
 
 import { CheckboxCellComponent } from '../checkbox-cell/checkbox-cell.component';
@@ -7,16 +7,19 @@ import { GridOptions } from "ag-grid/main";
 
 
 //import { DataService } from '../services/data.service';
-import { Response } from '@angular/http';
-import { Http } from '@angular/http';
+
+import { Http, RequestOptions, Headers, Response, URLSearchParams  } from '@angular/http';
 
 import "ag-grid-enterprise";
+
+import { HeaderComponent } from '../header-component/header.component';
 
 
 @Component({
     selector: 'app-my-grid-application',
     templateUrl: './my-grid-application.component.html',
-    styleUrls:['./my-grid-application.component.css']
+    styleUrls: ['./my-grid-application.component.css'],
+    encapsulation: ViewEncapsulation.None
 })
 export class MyGridApplicationComponent  {
     gridOptions: GridOptions;
@@ -29,15 +32,18 @@ export class MyGridApplicationComponent  {
     infiniteInitialRowCount;
     getRowNodeId;
     rowModelType;
-    cacheOverflowSize
-    maxBlocksInCache
-    rowDeselection
-    paginationPageSize
-    maxConcurrentDatasourceRequests
+    cacheOverflowSize;
+    maxBlocksInCache;
+    rowDeselection;
+    paginationPageSize;
+    maxConcurrentDatasourceRequests;
 
+    frameworkComponents;
+    defaultColDef;
 
+    //headerHeight
 
-   
+    getMainMenuItems;
 
     constructor(private http: Http) {
 
@@ -48,7 +54,9 @@ export class MyGridApplicationComponent  {
         this.columnDefs = [
           {
             headerName: 'Refunded', field: 'refunded', suppressFilter: true,
-           cellRendererFramework: CheckboxCellComponent,
+            cellRendererFramework: CheckboxCellComponent,
+            
+            menuTabs: ["filterMenuTab", "columnsMenuTab"]
            
             //checkboxSelection: true
             
@@ -61,7 +69,9 @@ export class MyGridApplicationComponent  {
               filterParams: {
                 newRowsAction: "keep",
                 filterOptions: ["contains"]
-              }
+              },
+              //menuTabs: ["filterMenuTab", "columnsMenuTab"]
+             
           },
             {
               headerName: "Model",
@@ -70,8 +80,9 @@ export class MyGridApplicationComponent  {
               filter: 'agTextColumnFilter',
               filterParams: {
                 newRowsAction: "keep",
-                filterOptions: ["contains"]
-              }
+                filterOptions: ["contain"]
+              },
+              menuTabs: ["filterMenuTab", "columnsMenuTab"]
             },
             {
               headerName: "Price",
@@ -80,14 +91,22 @@ export class MyGridApplicationComponent  {
               filterParams: {
                 newRowsAction: "keep",
                 filterOptions: ["equals", "lessThan", "greaterThan"]
-              }
+              },
+              menuTabs: ["filterMenuTab", "columnsMenuTab"]
             },
             {
               headerName: "Date(MM/DD/YYYY)",
               field: "date",
-              suppressFilter: true
+              //suppressFilter: true,
+              filter: "agDateColumnFilter",
+              menuTabs: ["filterMenuTab", "columnsMenuTab"],
+
             },
-            { headerName: "Number", field: "number", suppressFilter: true},
+            {
+              headerName: "Number",
+              field: "number",
+              suppressFilter: true,
+              menuTabs: ["filterMenuTab", "columnsMenuTab"]},
             {
               headerName: "ID",
               field: "id",
@@ -95,11 +114,18 @@ export class MyGridApplicationComponent  {
               filterParams: {
                 newRowsAction: "keep",
                 filterOptions: ["contains"]
-              }
+              },
+              menuTabs: ["filterMenuTab", "columnsMenuTab"]
             },
-            { headerName: "Location", field: "location" },
-            { headerName: "Notes", field: "notes" },
-            { headerName: "extra", field: "extra" }
+            {
+              headerName: "Location", field: "location",
+              menuTabs: ["filterMenuTab", "columnsMenuTab"]},
+            {
+              headerName: "Notes", field: "notes",
+              menuTabs: ["filterMenuTab", "columnsMenuTab"]},
+            {
+              headerName: "extra", field: "extra",
+              menuTabs: ["filterMenuTab", "columnsMenuTab"]}
         ];
 
 
@@ -112,14 +138,21 @@ export class MyGridApplicationComponent  {
         this.maxConcurrentDatasourceRequests = 2;
         this.infiniteInitialRowCount = 1;
         this.maxBlocksInCache = 2;
-
       
-
-       
 
         this.getRowNodeId = function (item) {
           return item.id;
         };
+
+
+       this.frameworkComponents = { agColumnHeader: HeaderComponent };
+       this.defaultColDef = {
+         width: 100,
+         headerComponentParams: { menuIcon: "fa-bars" }
+       };
+
+       //this.headerHeight= 100;
+    
 
         //this.gridOptions.rowStyle = { background: 'Aliceblue' };
       
@@ -131,11 +164,38 @@ export class MyGridApplicationComponent  {
 
         ];*/
 
+       this.getMainMenuItems = function getMainMenuItems(params) {
+         switch (params.column.getId()) {
+           case "make":
+             return [
+               {
+                 name: 'asac',
+                 action: function () {
+                   this.params.setSort('asc')
+                 },
+                 
+                 icon:'<i class="fas fa-arrow-alt-circle-up"></i>'
+               },
+               {
+                 name: 'desac',
+                 action: function () {
+                   console.log('sort desc');
+                 },
 
+                 icon: '<i class="fas fa-arrow-alt-circle-down"></i>'
+               }
+             ];
+         }
+       };
+
+        
         
 
         
     }
+
+    
+
 
     onGridReady(params) {
       params.api.sizeColumnsToFit();
@@ -144,9 +204,53 @@ export class MyGridApplicationComponent  {
       
     
       this.gridColumnApi = params.columnApi;
+    
+      let URL = 'http://localhost:3000/employees';
+      let myHeaders = new Headers();
+      myHeaders.set('Content-Type', 'application/json');
+      let myParams = new URLSearchParams()
+      myParams.set('sort', params.sortModel);
+      myParams.set('filter', params.filterModel);
+      let options = new RequestOptions({ headers: myHeaders, params: myParams });
+      this.http.get(URL, options).subscribe(data => {
+        console.log(data);
 
-      this.http
-        .get('assets/data.json')
+        var newData = data.json();
+
+        newData.forEach(function (data, index) {
+          newData.id = "R" + (index + 1);
+        });
+        //params.api.setRowData(newData);
+        var dataSource = {
+          rowCount: null,
+          getRows: function (params) {
+            console.log("asking for " + params.startRow + " to " + params.endRow);
+            setTimeout(function () {
+
+              console.log("sortModel: ", JSON.stringify(params.sortModel));
+               console.log("filterModel: ", JSON.stringify(params.filterModel));
+             
+              console.log("--------------------------");
+
+              var dataAfterSortingAndFiltering = sortAndFilter(newData, params.sortModel, params.filterModel);
+              var rowsThisPage = dataAfterSortingAndFiltering.slice(params.startRow, params.endRow);
+              var lastRow = -1;
+              if (dataAfterSortingAndFiltering.length <= params.endRow) {
+                lastRow = dataAfterSortingAndFiltering.length;
+              }
+              params.successCallback(rowsThisPage, lastRow);
+            }, 500);
+          }
+        };
+        params.api.setDatasource(dataSource);
+        console.log("sortModel: ", JSON.stringify(params.sortModel));
+        console.log("filterModel: ", JSON.stringify(params.filterModel));
+      });
+
+   
+  
+   /*  this.http
+        .get('assets/db.json')
         .subscribe(data => {
 
           console.log(data);
@@ -164,15 +268,15 @@ export class MyGridApplicationComponent  {
               setTimeout(function () {
 
                 //var str=JSON.stringify(params.sortModel);
-                console.log("sortModel: ", JSON.stringify(params.sortModel));
+               //console.log("sortModel: ", JSON.stringify(params.sortModel));
                 //var try2=params.sortModel;
                 //var try3 = try2[0];
                 //console.log("try3", try3);
                 //console.log("try3.colId",try3.sort);
 
-                console.log("filterModel: ", JSON.stringify(params.filterModel));
+                //console.log("filterModel: ", JSON.stringify(params.filterModel));
                 //console.log(params.filterModel);
-                console.log("--------------------------");
+                //console.log("--------------------------");
 
                 var dataAfterSortingAndFiltering = sortAndFilter(newData, params.sortModel, params.filterModel);
                 var rowsThisPage = dataAfterSortingAndFiltering.slice(params.startRow, params.endRow);
@@ -186,6 +290,9 @@ export class MyGridApplicationComponent  {
           };
           params.api.setDatasource(dataSource);
         });
+
+    */
+      }
 
 
     }
@@ -205,14 +312,12 @@ export class MyGridApplicationComponent  {
 
     */
    
-}
+
 
 function sortAndFilter(allOfTheData, sortModel, filterModel) {
 
-
-  
-
   return sortData(sortModel, filterData(filterModel, allOfTheData));
+  
 }
 
 function sortData(sortModel, data) {
@@ -336,5 +441,4 @@ function filterData(filterModel, data) {
 function RefundedCellRenderer(params) {
   return params.value;
 }
-
 

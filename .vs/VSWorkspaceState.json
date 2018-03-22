@@ -1,10 +1,17 @@
 {
   "ExpandedNodes": [
     "",
+    "\\node_modules",
+    "\\node_modules\\ag-grid",
+    "\\node_modules\\ag-grid\\dist",
+    "\\node_modules\\ag-grid\\dist\\styles",
+    "\\node_modules\\ag-grid\\src",
+    "\\node_modules\\ag-grid\\src\\styles",
     "\\src",
     "\\src\\app",
-    "\\src\\app\\my-grid-application"
+    "\\src\\app\\header-component",
+    "\\src\\app\\my-grid-application",
+    "\\src\\app\\service"
   ],
-  "SelectedNode": "\\src\\app\\my-grid-application\\my-grid-application.component.ts",
   "PreviewInSolutionExplorer": false
 }
