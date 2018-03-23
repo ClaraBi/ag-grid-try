@@ -14,6 +14,7 @@ import { HttpModule } from '@angular/http';
 
 import { CheckboxCellComponent } from './checkbox-cell/checkbox-cell.component';
 import { HeaderComponent } from './header-component/header.component';
+import { CustomDateComponent } from './custom-date/custom-date.component';
 
 const appRoutes: Routes = [
   { path: '', component: MyGridApplicationComponent },
@@ -30,7 +31,8 @@ const appRoutes: Routes = [
         AddFormComponent,
         WaybillItemsGridComponent,
         CheckboxCellComponent,
-        HeaderComponent
+        HeaderComponent,
+        CustomDateComponent
   ],
     entryComponents: [
       CheckboxCellComponent,

@@ -8,16 +8,13 @@ import { GridOptions } from "ag-grid/main";
 
 //import { DataService } from '../services/data.service';
 
-<<<<<<< HEAD
 import { Http, RequestOptions, Headers, Response, URLSearchParams  } from '@angular/http';
-=======
-import { Http, RequestOptions, Headers, Response  } from '@angular/http';
->>>>>>> 8215b0738cc673cc912c1445edb25d64f23a9a45
 
 import "ag-grid-enterprise";
 
 import { HeaderComponent } from '../header-component/header.component';
 
+import { CustomDateComponent } from '../custom-date/custom-date.component';
 
 @Component({
     selector: 'app-my-grid-application',
@@ -99,10 +96,14 @@ export class MyGridApplicationComponent  {
               menuTabs: ["filterMenuTab", "columnsMenuTab"]
             },
             {
-              headerName: "Date(MM/DD/YYYY)",
+              headerName: "Date",
               field: "date",
               //suppressFilter: true,
               filter: "agDateColumnFilter",
+              filterParams: {
+                
+                filterOptions: ["equals", "lessThan", "greaterThan"]
+              },
               menuTabs: ["filterMenuTab", "columnsMenuTab"],
 
             },
@@ -126,10 +127,13 @@ export class MyGridApplicationComponent  {
               menuTabs: ["filterMenuTab", "columnsMenuTab"]},
             {
               headerName: "Notes", field: "notes",
-              menuTabs: ["filterMenuTab", "columnsMenuTab"]},
+              menuTabs: ["filterMenuTab", "columnsMenuTab"],
+              suppressFilter: true
+            },
+          
             {
               headerName: "extra", field: "extra",
-              menuTabs: ["filterMenuTab", "columnsMenuTab"]}
+              menuTabs: [, "columnsMenuTab"]}
         ];
 
 
@@ -202,97 +206,96 @@ export class MyGridApplicationComponent  {
 
 
     onGridReady(params) {
+
       params.api.sizeColumnsToFit();
 
       this.gridApi = params.api;
-      
-    
+      let that = this;
+
       this.gridColumnApi = params.columnApi;
-    
-      let URL = 'http://localhost:3000/employees';
-      let myHeaders = new Headers();
-      myHeaders.set('Content-Type', 'application/json');
-      let myParams = new URLSearchParams()
-      myParams.set('sort', params.sortModel);
-      myParams.set('filter', params.filterModel);
-      let options = new RequestOptions({ headers: myHeaders, params: myParams });
-      this.http.get(URL, options).subscribe(data => {
-        console.log(data);
 
-        var newData = data.json();
 
-        newData.forEach(function (data, index) {
-          newData.id = "R" + (index + 1);
-        });
-        //params.api.setRowData(newData);
+      //  this.http.get(URL, options).subscribe(data => {
+      //console.log(data);
+
+      // var newData = data.json();
+
+      //newData.forEach(function (data, index) {
+      // newData.id = "R" + (index + 1);
+      // });
+      //params.api.setRowData(newData);
+
+
+     
         var dataSource = {
           rowCount: null,
-          getRows: function (params) {
-            console.log("asking for " + params.startRow + " to " + params.endRow);
-            setTimeout(function () {
+          getRows: function (para) {
+            console.log("asking for " + para.startRow + " to " + para.endRow);
+            // setTimeout(function () {
+            console.log("http: ",that.http);
 
-              console.log("sortModel: ", JSON.stringify(params.sortModel));
-               console.log("filterModel: ", JSON.stringify(params.filterModel));
-             
-              console.log("--------------------------");
+            let URL = 'http://localhost:3000/employees';
+            let myHeaders = new Headers();
+            myHeaders.set('Content-Type', 'application/json');
 
-              var dataAfterSortingAndFiltering = sortAndFilter(newData, params.sortModel, params.filterModel);
-              var rowsThisPage = dataAfterSortingAndFiltering.slice(params.startRow, params.endRow);
+
+            //console.log("sortModel: ", JSON.stringify(para.sortModel));
+            console.log("filterModel: ", JSON.stringify(para.filterModel));
+            console.log("filterModel: ", para.filterModel)
+            var sortJSONP1 = JSON.stringify(para.sortModel).replace("colId", "property");
+            var sortJSON = sortJSONP1.replace("sort","direction");
+            console.log("sortJSON: ", sortJSON);
+
+            var nameFilterInstance = params.api.getFilterModel();
+            console.log(" nameFilterInstance",nameFilterInstance);
+            var savedFilters = Object.keys(nameFilterInstance );
+            console.log(" savedFilters", savedFilters);
+
+
+
+            let myParams = new URLSearchParams();
+            myParams.set('limit', '50');
+            myParams.set('sort', sortJSON);
+            myParams.set('filter',  JSON.stringify(para.filterModel));
+
+           
+           
+            console.log("params: ",params);
+            console.log("para: ",para);
+            let options = new RequestOptions({ headers: myHeaders, params: myParams });
+
+            that.http.get(URL, options).subscribe(data => {
+              console.log(options);
+             // console.log(data);
+
+              var newData = data.json();
+              newData.forEach(function (data, index) {
+                newData.id = "R" + (index + 1);
+              });
+              var dataAfterSortingAndFiltering = sortAndFilter(newData, para.sortModel, para.filterModel);
+              var rowsThisPage = dataAfterSortingAndFiltering.slice(para.startRow, para.endRow);
               var lastRow = -1;
-              if (dataAfterSortingAndFiltering.length <= params.endRow) {
+              if (dataAfterSortingAndFiltering.length <= para.endRow) {
                 lastRow = dataAfterSortingAndFiltering.length;
               }
-              params.successCallback(rowsThisPage, lastRow);
-            }, 500);
+              para.successCallback(rowsThisPage, lastRow);
+            })
+
+           // console.log(options);
+           
+            console.log("--------------------------");
+           
+            
           }
         };
-        params.api.setDatasource(dataSource);
-        console.log("sortModel: ", JSON.stringify(params.sortModel));
-        console.log("filterModel: ", JSON.stringify(params.filterModel));
-      });
 
-<<<<<<< HEAD
-   
+        params.api.setDatasource(dataSource);
+
+
+     
   
    /*  this.http
         .get('assets/db.json')
-=======
-      let URL = 'assets/data.json';
-      let requestOptions = new RequestOptions();
-      requestOptions.headers = new Headers({
-        'Content-Type': 'application/json',
-        'sort': params.sortModel,
-        'filter': params.filterModel
-      });
-      this.http.get(URL, requestOptions).subscribe(data => {
-
-        console.log(requestOptions);
-        var newData = data.json();
-        newData.forEach(function (data, index) {
-          newData.id = "R" + (index + 1);
-        });
-         var dataSource = {
-          rowCount: null,
-          getRows: function(params) {
-            console.log("asking for " + params.startRow + " to " + params.endRow);
-            setTimeout(function() {
-              var rowsThisPage = newData.slice(params.startRow, params.endRow);
-              var lastRow = -1;
-              if (newData.length <= params.endRow) {
-                lastRow = newData.length;
-              }
-              params.successCallback(rowsThisPage, lastRow);
-            }, 500);
-          }
-        };
-        params.api.setDatasource(dataSource);
-      });
-
-
-  
-     /*this.http
-        .get('assets/data.json')
->>>>>>> 8215b0738cc673cc912c1445edb25d64f23a9a45
         .subscribe(data => {
 
           console.log(data);
@@ -333,11 +336,7 @@ export class MyGridApplicationComponent  {
           params.api.setDatasource(dataSource);
         });
 
-<<<<<<< HEAD
     */
-=======
-      */
->>>>>>> 8215b0738cc673cc912c1445edb25d64f23a9a45
       }
 
 
@@ -357,7 +356,8 @@ export class MyGridApplicationComponent  {
     }
 
     */
-   
+
+
 
 
 function sortAndFilter(allOfTheData, sortModel, filterModel) {
@@ -390,7 +390,7 @@ function sortData(sortModel, data) {
       //console.log("sortDirection: " + sortDirection);
 
       if (sortColModel.colId == "date") {
-        //below two lines is for date formate in MM/DD/YYYY
+        //below two lines is for date formate in MM/DD/YYYY or YYYY-MM-DD
         valueA = new Date(valueA);
         valueB = new Date(valueB);
 
@@ -477,6 +477,25 @@ function filterData(filterModel, data) {
         continue;
       }
     }*/
+
+
+    if (filterModel.date) {
+      //console.log(filterModel.date.type);
+      //console.log(item.date);
+      var itemDate = new Date(item.date);
+      var dateFromDate = new Date(filterModel.date.dateFrom);
+
+      if (filterModel.date.type == "equals" && filterModel.date.dateFrom != item.date) {
+        continue;
+      }
+      if (filterModel.date.type == "lessThan" && itemDate >= dateFromDate) {
+        continue;
+      }
+      if (filterModel.date.type == "greaterThan" && itemDate <= dateFromDate) {
+        continue;
+      }
+    }
+
     resultOfFilter.push(item);
 }
   
