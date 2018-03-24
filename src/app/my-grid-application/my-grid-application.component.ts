@@ -238,12 +238,13 @@ export class MyGridApplicationComponent  {
             let myHeaders = new Headers();
             myHeaders.set('Content-Type', 'application/json');
 
-            
+
             //console.log("sortModel: ", JSON.stringify(para.sortModel));
             console.log("filterModel: ", JSON.stringify(para.filterModel));
             console.log("filterModel: ", para.filterModel)
             var sortJSONP1 = JSON.stringify(para.sortModel).replace("colId", "property");
             var sortJSON = sortJSONP1.replace("sort","direction");
+
             //console.log("sortJSON: ", sortJSON);
 
            /* var nameFilterInstance = params.api.getFilterModel();
@@ -267,12 +268,22 @@ export class MyGridApplicationComponent  {
 
                         
 
+
+
+            console.log("sortJSON: ", sortJSON);
+
+            var nameFilterInstance = params.api.getFilterModel();
+            console.log(" nameFilterInstance",nameFilterInstance);
+            var savedFilters = Object.keys(nameFilterInstance );
+            console.log(" savedFilters", savedFilters);
+
+
+
             let myParams = new URLSearchParams();
             myParams.set('limit', '50');
             myParams.set('sort', sortJSON);
-            myParams.set('filter', JSON.stringify(para.filterModel));
+            myParams.set('filter',  JSON.stringify(para.filterModel));
 
-           
            
             console.log("params: ",params);
             console.log("para: ",para);

@@ -1,3 +1,14 @@
+##To run those code:
+
+#1.install nodeJS.
+#2.install Angular-cli.
+#3.git clone.
+#4.cd to folder.
+#5.run "npm install".
+#6.run "json-server --watch db.json"
+#7.run "ng serve".
+
+
 # AgGridCli
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0-rc.0.
@@ -29,3 +40,4 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 "# ag-grid-try" 
 "# mock-grid-ag" 
 "# mock-grid" 
+"# try-ag-grid" 
