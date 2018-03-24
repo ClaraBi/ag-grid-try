@@ -16,6 +16,10 @@ import { HeaderComponent } from '../header-component/header.component';
 
 import { CustomDateComponent } from '../custom-date/custom-date.component';
 
+import { GetDataService } from '../services/getData.service';
+
+
+
 @Component({
     selector: 'app-my-grid-application',
     templateUrl: './my-grid-application.component.html',
@@ -46,8 +50,8 @@ export class MyGridApplicationComponent  {
 
     getMainMenuItems;
 
-    constructor(private http: Http) {
-
+    //constructor(private http: Http) {
+    constructor(private getData: GetDataService) {
       
         this.gridOptions = <GridOptions>{};
         
@@ -232,7 +236,7 @@ export class MyGridApplicationComponent  {
           getRows: function (para) {
             console.log("asking for " + para.startRow + " to " + para.endRow);
             // setTimeout(function () {
-            console.log("http: ",that.http);
+            //console.log("http: ",that.http);
 
             let URL = 'http://localhost:3000/employees';
             let myHeaders = new Headers();
@@ -289,10 +293,12 @@ export class MyGridApplicationComponent  {
             console.log("para: ",para);
             let options = new RequestOptions({ headers: myHeaders, params: myParams });
 
-            that.http.get(URL, options).subscribe(data => {
+           // that.http.get(URL, options).subscribe(data => {
+
+            that.getData.getDataService(URL, options).subscribe(response => {
               console.log(options);
              // console.log(data);
-
+              var data = response;
               var newData = data.json();
               newData.forEach(function (data, index) {
                 newData.id = "R" + (index + 1);

@@ -16,6 +16,8 @@ import { CheckboxCellComponent } from './checkbox-cell/checkbox-cell.component';
 import { HeaderComponent } from './header-component/header.component';
 import { CustomDateComponent } from './custom-date/custom-date.component';
 
+import { GetDataService } from './services/getData.service';
+
 const appRoutes: Routes = [
   { path: '', component: MyGridApplicationComponent },
   { path: 'addform', component: AddFormComponent}
@@ -46,7 +48,7 @@ const appRoutes: Routes = [
         RouterModule.forRoot(appRoutes),
         HttpModule
     ],
-    providers: [],
+    providers: [GetDataService],
     bootstrap: [AppComponent]
 })
 export class AppModule {
