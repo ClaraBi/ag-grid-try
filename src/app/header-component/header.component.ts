@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
-import { IHeaderAngularComp } from "ag-grid-angular";
-import { IHeaderParams } from "ag-grid/main";
+//import { IHeaderAngularComp } from "ag-grid-angular";
+//import { IHeaderParams } from "ag-grid/main";
 
 @Component({
   selector: 'app-header',
@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit {
     this.params = params;
 
     params.column.addEventListener('sortChanged', this.onSortChanged.bind(this));
-    this.onSortChanged();
+    //this.onSortChanged();
   }
 
   onMenuClicked() {
@@ -41,7 +41,7 @@ export class HeaderComponent implements OnInit {
   }
 
   onSortRequested(order, event) {
-    
+    console.log("this.paramssssssssssss", this.params)
     this.params.setSort(order, event.shiftKey);
   }
 

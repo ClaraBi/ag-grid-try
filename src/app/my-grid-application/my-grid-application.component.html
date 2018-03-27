@@ -6,7 +6,7 @@
     <h1>rang wo fa xian wo hen ben de grid</h1>
     <button type="button" [routerLink]="['/addform']">Add</button>
     <button (click)="onRemoveSelected()">Delete</button>
-    <button >Edit</button>
+    <button>Edit</button>
     <button>Flights</button>
     <button>Copy</button>
     <button>Change Service</button>
@@ -14,9 +14,6 @@
     <button>Add Delayd Event</button>
     <!--<button class="btn btn-primary" (click)="onGet()">GetData</button> -->
   </div>
-
-
-
 
 
   <ag-grid-angular style="height: 80vh"
@@ -27,26 +24,26 @@
                    (gridReady)="onGridReady($event)"
                    [rowSelection]="rowSelection"
                    [getRowNodeId]="getRowNodeId"
-                  
-                   [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests"
-                   [cacheOverflowSize]="cacheOverflowSize"
-                   [infiniteInitialRowCount]="infiniteInitialRowCount"
-                   [maxBlocksInCache]="maxBlocksInCache"
                    [rowDeselection]="true"
-                   [rowModelType]="rowModelType"
-                   [enableServerSideSorting]="true"
-                   [enableServerSideFilter]="true"
                    enableSorting
-                   enableFiltern
+                   [enableFilter]="true"
                    [enableRangeSelection]="true"
                    [enableColResize]="true"
                    [suppressMenuHide]="true"
                    [frameworkComponents]="frameworkComponents"
                    [defaultColDef]="defaultColDef"
-
                    [getMainMenuItems]="getMainMenuItems"
+                   [localeText]="localeText"
 
+                   [infiniteInitialRowCount]="infiniteInitialRowCount"
+                   [enableServerSideSorting]="true"
+                   [enableServerSideFilter]="true"
                    [paginationPageSize]="paginationPageSize"
+                   [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests"
+                   [rowModelType]="rowModelType"
+                   [cacheOverflowSize]="cacheOverflowSize"
+                   [maxBlocksInCache]="maxBlocksInCache"
+
                    >
 
 

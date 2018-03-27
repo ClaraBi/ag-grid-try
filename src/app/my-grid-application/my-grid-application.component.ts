@@ -16,7 +16,7 @@ import { HeaderComponent } from '../header-component/header.component';
 
 import { CustomDateComponent } from '../custom-date/custom-date.component';
 
-import { GetDataService } from '../services/getData.service';
+import { DataService } from '../services/getData.service';
 
 
 
@@ -50,12 +50,16 @@ export class MyGridApplicationComponent  {
 
     getMainMenuItems;
 
-    //constructor(private http: Http) {
-    constructor(private getData: GetDataService) {
-      
-        this.gridOptions = <GridOptions>{};
-        
+    localeText;
 
+
+    pp: any;
+
+    //constructor(private http: Http) {
+    constructor(private dataService: DataService) {
+      
+      this.gridOptions = <GridOptions>{};
+    
         this.columnDefs = [
           {
             headerName: 'Refunded', field: 'refunded', suppressFilter: true,
@@ -70,11 +74,13 @@ export class MyGridApplicationComponent  {
           //checkboxSelection: true, 
           {
               headerName: "Make", field: "make",
-              filter: 'agTextColumnFilter',
-              filterParams: {
-                newRowsAction: "keep",
-                filterOptions: ["contains"]
-              },
+              //filter: 'agTextColumnFilter',
+             filterParams: {
+               newRowsAction: "keep",
+               filterOptions: ["contains"]
+             },
+             filter: getPersonFilter()
+              
               //menuTabs: ["filterMenuTab", "columnsMenuTab"]
              
           },
@@ -82,7 +88,8 @@ export class MyGridApplicationComponent  {
               headerName: "Model",
               field: "model",
               cellRendererFramework: RedComponentComponent,
-              filter: 'agTextColumnFilter',
+              //filter: 'agTextColumnFilter',for inifity scrolling
+              filter: getPersonFilter(),
               filterParams: {
                 newRowsAction: "keep",
                 filterOptions: ["contains"]
@@ -102,11 +109,28 @@ export class MyGridApplicationComponent  {
             {
               headerName: "Date",
               field: "date",
-              //suppressFilter: true,
+             
               filter: "agDateColumnFilter",
               filterParams: {
                 
-                filterOptions: ["equals", "lessThan", "greaterThan"]
+                filterOptions: ["equals", "lessThan", "greaterThan"],
+                comparator: function (filterLocalDateAtMidnight, cellValue) {
+
+                  var dateAsString = cellValue;
+                  if (dateAsString == null) return -1;
+                  var dateParts = dateAsString.split("-");
+                 
+                  var cellDate = new Date(Number(dateParts[0]), Number(dateParts[1]) - 1, Number(dateParts[2]));
+                  if (filterLocalDateAtMidnight.getTime() == cellDate.getTime()) {
+                    return 0;
+                  }
+                  if (cellDate < filterLocalDateAtMidnight) {
+                    return -1;
+                  }
+                  if (cellDate > filterLocalDateAtMidnight) {
+                    return 1;
+                  }
+                }
               },
               menuTabs: ["filterMenuTab", "columnsMenuTab"],
 
@@ -137,25 +161,27 @@ export class MyGridApplicationComponent  {
           
             {
               headerName: "extra", field: "extra",
-              menuTabs: [, "columnsMenuTab"]}
+              menuTabs: [ "columnsMenuTab"]}
         ];
 
 
       
 
         this.rowSelection = "multiple";
-        this.rowModelType = "infinite";
+
+      //below for inifity scrolling---------------------start
+       this.rowModelType = "infinite";
         this.paginationPageSize = 100;
         this.cacheOverflowSize = 2;
-        this.maxConcurrentDatasourceRequests = 2;
-        this.infiniteInitialRowCount = 1;
-        this.maxBlocksInCache = 2;
+       this.maxConcurrentDatasourceRequests = 2;
+       this.infiniteInitialRowCount = 1;
+       this.maxBlocksInCache = 2;
       
 
-        this.getRowNodeId = function (item) {
-          return item.id;
-        };
-
+       this.getRowNodeId = function (item) {
+         return item.id;
+       };
+      //------------------------end
 
        this.frameworkComponents = { agColumnHeader: HeaderComponent };
        this.defaultColDef = {
@@ -163,27 +189,23 @@ export class MyGridApplicationComponent  {
          headerComponentParams: { menuIcon: "fa-bars" }
        };
 
-       //this.headerHeight= 100;
-    
-
-        //this.gridOptions.rowStyle = { background: 'Aliceblue' };
-      
-        
-
        
-        /**this.rowData = [
-          { make: "1Toyota", model: "Celica", price: 35700, date: "01/23/1993", number: 3, id: "7897243", location: "edision", notes: "some notes", extra: "extra messages" }
-
-        ];*/
-
+       var those = this;
+ 
        this.getMainMenuItems = function getMainMenuItems(params) {
+         
+         console.log("params: ", params);
+         console.log(" those", those);
          switch (params.column.getId()) {
+           
+          
            case "make":
              return [
                {
                  name: 'asac',
                  action: function () {
-                   this.params.setSort('asc')
+                   console.log("paramsssssssssssssssss", this.pp)
+                   this.pp.setSort('asac', 'false');
                  },
                  
                  icon:'<i class="fas fa-arrow-alt-circle-up"></i>'
@@ -200,38 +222,33 @@ export class MyGridApplicationComponent  {
          }
        };
 
+       this.localeText = {
+         contains: "Filter"
+       };
+
         
         
 
         
     }
 
-    
-
+    agInit(params): void {
+      this.pp = params;
+      console.log("pp    ", this.pp)
+      console.log("params", params)
+      
+    }
 
     onGridReady(params) {
-
+      
       params.api.sizeColumnsToFit();
 
       this.gridApi = params.api;
       let that = this;
 
       this.gridColumnApi = params.columnApi;
-
-
-      //  this.http.get(URL, options).subscribe(data => {
-      //console.log(data);
-
-      // var newData = data.json();
-
-      //newData.forEach(function (data, index) {
-      // newData.id = "R" + (index + 1);
-      // });
-      //params.api.setRowData(newData);
-
-
-     
-        var dataSource = {
+  
+  /*   var dataSource = {
           rowCount: null,
           getRows: function (para) {
             console.log("asking for " + para.startRow + " to " + para.endRow);
@@ -248,27 +265,6 @@ export class MyGridApplicationComponent  {
             console.log("filterModel: ", para.filterModel)
             var sortJSONP1 = JSON.stringify(para.sortModel).replace("colId", "property");
             var sortJSON = sortJSONP1.replace("sort","direction");
-
-            //console.log("sortJSON: ", sortJSON);
-
-           /* var nameFilterInstance = params.api.getFilterModel();
-            console.log(" nameFilterInstance",nameFilterInstance);
-            var savedFilters = Object.keys(nameFilterInstance);
-            var savedFilters1 = JSON.stringify(savedFilters.valueOf()).split(",");
-            var savedFilters2 = savedFilters1.shift();
-
-
-            console.log(" savedFilters2", savedFilters2);
-            var savedFiltersValue = Object.keys(nameFilterInstance).map(function (e) {
-              return nameFilterInstance[e]
-            })
-            console.log("savedFiltersValue", (JSON.stringify(savedFiltersValue)).length);
-            console.log("savedFiltersValue", JSON.stringify(savedFiltersValue));
-            var filterJSONP1 = JSON.stringify(savedFiltersValue).replace(/type/g, "operator");
-            var filterJSONP2 = filterJSONP1.replace(/contains/g, "like");
-            var filterJSONP3 = filterJSONP2.replace(/filter/g, "value");
-            var filterJSONP4 = filterJSONP3.replace(/filterType/g, "property");
-            var filterJSONP5 = filterJSONP4.replace("text", savedFilters2);*/
 
                         
 
@@ -292,14 +288,14 @@ export class MyGridApplicationComponent  {
             console.log("params: ",params);
             console.log("para: ",para);
             let options = new RequestOptions({ headers: myHeaders, params: myParams });
-
+            var newData;
            // that.http.get(URL, options).subscribe(data => {
 
-            that.getData.getDataService(URL, options).subscribe(response => {
+            that.dataService.getDataService(URL, options).subscribe(response => {
               console.log(options);
              // console.log(data);
               var data = response;
-              var newData = data.json();
+              newData = data.json();
               newData.forEach(function (data, index) {
                 newData.id = "R" + (index + 1);
               });
@@ -318,10 +314,23 @@ export class MyGridApplicationComponent  {
            
             
           }
-        };
+      };
+      params.api.setDatasource(dataSource);
+      */
+     var dataSource = {
+       rowCount: null,
+       getRows: function (para) {
+         console.log("asking for " + para.startRow + " to " + para.endRow);
+ 
+         that.dataService.getDataService(para, params);
+ 
+       }
+     };
 
-        params.api.setDatasource(dataSource);
+     params.api.setDatasource(dataSource);
 
+
+      
 
      
   
@@ -389,7 +398,7 @@ export class MyGridApplicationComponent  {
     */
 
 
-
+/*my old server side sort and filter for inifinty scrolling-----------------------------start
 
 function sortAndFilter(allOfTheData, sortModel, filterModel) {
 
@@ -509,7 +518,7 @@ function filterData(filterModel, data) {
       }
     }*/
 
-
+/*
     if (filterModel.date) {
       //console.log(filterModel.date.type);
       //console.log(item.date);
@@ -533,8 +542,107 @@ function filterData(filterModel, data) {
   return resultOfFilter;
  
 }
+old serverside sort and filter---------------------------------------------- end*/
+
+
 
 function RefundedCellRenderer(params) {
   return params.value;
 }
 
+function getPersonFilter() {
+  function PersonFilter() { }
+  PersonFilter.prototype.init = function (params) {
+    
+    this.valueGetter = params.valueGetter;
+    this.params = params;
+    this.filterText = null;
+    this.setupGui(params);
+  };
+  PersonFilter.prototype.setupGui = function (params) {
+    this.gui = document.createElement("div");
+    this.gui.innerHTML =
+      '<div style="padding: 4px;">' +
+      '<div style="font-weight: bold;">Please input:</div>' +
+      '<div><input style="margin: 4px 0px 4px 0px;" type="text" id="filterText" placeholder="Filter search..."/></div>' +
+      '<div style="margin-top: 20px; width: 200px;">This filter does partial word search on multiple words, eg "mich phel" still brings back Michael Phelps.</div>' +
+      "</div>";
+    this.eFilterText = this.gui.querySelector("#filterText");
+    this.eFilterText.addEventListener("changed", listener);
+    this.eFilterText.addEventListener("paste", listener);
+    this.eFilterText.addEventListener("input", listener);
+    //this.eFilterText.addEventListener("keydown", listener);
+    this.eFilterText.addEventListener("keyup", listener);
+    var those = this;
+    function listener(event) {
+      those.filterText = event.target.value;
+      console.log("event.target.value", event.target.value);
+      console.log(params);
+      //this.dataSource = {
+        //rowCount: null,
+        //getRows: function (para) {
+        //this.dataService.getDataService(para, params);
+
+       // };
+     // params.api.setDatasource(this.dataSource);
+
+      //params.filterChangedCallback();
+    }
+  };
+  PersonFilter.prototype.getGui = function () {
+   
+    return this.gui;
+  };
+  PersonFilter.prototype.doesFilterPass = function (params) {
+    console.log("lllllllllllllllllll");
+    var passed = true;
+    var valueGetter = this.valueGetter;
+    console.log("valueGetter", valueGetter)
+    this.filterText
+      .toLowerCase()
+      .split(" ")
+      .forEach(function (filterWord) {
+        var value = valueGetter(params);
+        if (
+          value
+            .toString()
+            .toLowerCase()
+            .indexOf(filterWord) < 0
+        ) {
+          passed = false;
+        }
+      });
+    return passed;
+  };
+  PersonFilter.prototype.isFilterActive = function () {
+    var isActive = this.filterText !== null && this.filterText !== undefined && this.filterText !== "";
+    return isActive;
+  };
+  PersonFilter.prototype.getApi = function () {
+    console.log("3333333333333333333333333")
+    var these = this;
+    return {
+      getModel: function () {
+        console.log("kkkkkkkkkkkkkkkkkkkkkk")
+        var model = { value: these.filterText.value };
+        return model;
+      },
+      setModel: function (model) {
+        these.eFilterText.value = model.value;
+      }
+    };
+  };
+
+
+  PersonFilter.prototype.getModelAsString = function (model) {
+    console.log("mmmmmmmmmmmmmmmmmmmmmmmmm")
+    return model ? model : "";
+  };
+  PersonFilter.prototype.getModel = function () {
+    
+    return this.filterText;
+  };
+  PersonFilter.prototype.setModel = function () { };
+ 
+  return PersonFilter;
+}

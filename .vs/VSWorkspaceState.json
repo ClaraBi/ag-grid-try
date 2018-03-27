@@ -1,9 +1,21 @@
 {
   "ExpandedNodes": [
     "",
+    "\\node_modules",
+    "\\node_modules\\ag-grid",
+    "\\node_modules\\ag-grid\\dist",
+    "\\node_modules\\ag-grid\\dist\\styles",
+    "\\node_modules\\ag-grid\\src",
+    "\\node_modules\\ag-grid\\src\\ts",
+    "\\node_modules\\ag-grid\\src\\ts\\components",
+    "\\node_modules\\ag-grid\\src\\ts\\components\\framework",
     "\\src",
     "\\src\\app",
-    "\\src\\app\\my-grid-application"
+    "\\src\\app\\custom-date",
+    "\\src\\app\\header-component",
+    "\\src\\app\\services",
+    "\\src\\assets"
   ],
+  "SelectedNode": "\\src\\app\\my-grid-application\\my-grid-application.component.ts",
   "PreviewInSolutionExplorer": false
 }
