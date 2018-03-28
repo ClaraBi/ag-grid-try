@@ -16,6 +16,7 @@
   </div>
 
 
+
   <ag-grid-angular style="height: 80vh"
                    class="ag-fresh"
                    [rowData]="rowData"
@@ -34,16 +35,17 @@
                    [defaultColDef]="defaultColDef"
                    [getMainMenuItems]="getMainMenuItems"
                    [localeText]="localeText"
-
                    [infiniteInitialRowCount]="infiniteInitialRowCount"
                    [enableServerSideSorting]="true"
                    [enableServerSideFilter]="true"
                    [paginationPageSize]="paginationPageSize"
+                   [pagination]="true"
+                   [suppressPaginationPanel]="true"
+                   (paginationChanged)="onPaginationChanged($event)"
                    [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests"
                    [rowModelType]="rowModelType"
                    [cacheOverflowSize]="cacheOverflowSize"
                    [maxBlocksInCache]="maxBlocksInCache"
-
                    >
 
 

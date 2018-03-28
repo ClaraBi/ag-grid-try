@@ -14,7 +14,7 @@ import "ag-grid-enterprise";
 
 import { HeaderComponent } from '../header-component/header.component';
 
-import { CustomDateComponent } from '../custom-date/custom-date.component';
+import { CustomFilterComponent } from '../custom-filter/custom-filter.component';
 
 import { DataService } from '../services/getData.service';
 
@@ -52,12 +52,16 @@ export class MyGridApplicationComponent  {
 
     localeText;
 
+    
+    
 
+    
     pp: any;
 
     //constructor(private http: Http) {
     constructor(private dataService: DataService) {
-      
+
+
       this.gridOptions = <GridOptions>{};
     
         this.columnDefs = [
@@ -75,11 +79,11 @@ export class MyGridApplicationComponent  {
           {
               headerName: "Make", field: "make",
               //filter: 'agTextColumnFilter',
-             filterParams: {
-               newRowsAction: "keep",
-               filterOptions: ["contains"]
-             },
-             filter: getPersonFilter()
+             //filterParams: {
+               //newRowsAction: "keep",
+               //filterOptions: ["contains"]
+             //},
+             filter: "CustomFilterComponent"
               
               //menuTabs: ["filterMenuTab", "columnsMenuTab"]
              
@@ -88,8 +92,8 @@ export class MyGridApplicationComponent  {
               headerName: "Model",
               field: "model",
               cellRendererFramework: RedComponentComponent,
-              //filter: 'agTextColumnFilter',for inifity scrolling
-              filter: getPersonFilter(),
+              filter: 'agTextColumnFilter',
+              
               filterParams: {
                 newRowsAction: "keep",
                 filterOptions: ["contains"]
@@ -139,7 +143,9 @@ export class MyGridApplicationComponent  {
               headerName: "Number",
               field: "number",
               suppressFilter: true,
-              menuTabs: ["filterMenuTab", "columnsMenuTab"]},
+              menuTabs: ["filterMenuTab", "columnsMenuTab"]
+            },
+
             {
               headerName: "ID",
               field: "id",
@@ -183,7 +189,7 @@ export class MyGridApplicationComponent  {
        };
       //------------------------end
 
-       this.frameworkComponents = { agColumnHeader: HeaderComponent };
+       this.frameworkComponents = { agColumnHeader: HeaderComponent, CustomFilterComponent: CustomFilterComponent };
        this.defaultColDef = {
          width: 100,
          headerComponentParams: { menuIcon: "fa-bars" }
@@ -232,18 +238,29 @@ export class MyGridApplicationComponent  {
         
     }
 
+
+    onPaginationChanged() {
+      console.log("onPaginationPageLoaded");
+      
+    }
+
+    
     agInit(params): void {
       this.pp = params;
       console.log("pp    ", this.pp)
       console.log("params", params)
       
     }
-
+    
     onGridReady(params) {
       
       params.api.sizeColumnsToFit();
 
       this.gridApi = params.api;
+
+      var currentPage = this.gridApi.paginationGetCurrentPage() + 1;
+      console.log("current:", currentPage);
+
       let that = this;
 
       this.gridColumnApi = params.columnApi;
@@ -322,7 +339,7 @@ export class MyGridApplicationComponent  {
        getRows: function (para) {
          console.log("asking for " + para.startRow + " to " + para.endRow);
  
-         that.dataService.getDataService(para, params);
+         that.dataService.getDataService(para, params, currentPage);
  
        }
      };
@@ -550,99 +567,4 @@ function RefundedCellRenderer(params) {
   return params.value;
 }
 
-function getPersonFilter() {
-  function PersonFilter() { }
-  PersonFilter.prototype.init = function (params) {
-    
-    this.valueGetter = params.valueGetter;
-    this.params = params;
-    this.filterText = null;
-    this.setupGui(params);
-  };
-  PersonFilter.prototype.setupGui = function (params) {
-    this.gui = document.createElement("div");
-    this.gui.innerHTML =
-      '<div style="padding: 4px;">' +
-      '<div style="font-weight: bold;">Please input:</div>' +
-      '<div><input style="margin: 4px 0px 4px 0px;" type="text" id="filterText" placeholder="Filter search..."/></div>' +
-      '<div style="margin-top: 20px; width: 200px;">This filter does partial word search on multiple words, eg "mich phel" still brings back Michael Phelps.</div>' +
-      "</div>";
-    this.eFilterText = this.gui.querySelector("#filterText");
-    this.eFilterText.addEventListener("changed", listener);
-    this.eFilterText.addEventListener("paste", listener);
-    this.eFilterText.addEventListener("input", listener);
-    //this.eFilterText.addEventListener("keydown", listener);
-    this.eFilterText.addEventListener("keyup", listener);
-    var those = this;
-    function listener(event) {
-      those.filterText = event.target.value;
-      console.log("event.target.value", event.target.value);
-      console.log(params);
-      //this.dataSource = {
-        //rowCount: null,
-        //getRows: function (para) {
-        //this.dataService.getDataService(para, params);
 
-       // };
-     // params.api.setDatasource(this.dataSource);
-
-      //params.filterChangedCallback();
-    }
-  };
-  PersonFilter.prototype.getGui = function () {
-   
-    return this.gui;
-  };
-  PersonFilter.prototype.doesFilterPass = function (params) {
-    console.log("lllllllllllllllllll");
-    var passed = true;
-    var valueGetter = this.valueGetter;
-    console.log("valueGetter", valueGetter)
-    this.filterText
-      .toLowerCase()
-      .split(" ")
-      .forEach(function (filterWord) {
-        var value = valueGetter(params);
-        if (
-          value
-            .toString()
-            .toLowerCase()
-            .indexOf(filterWord) < 0
-        ) {
-          passed = false;
-        }
-      });
-    return passed;
-  };
-  PersonFilter.prototype.isFilterActive = function () {
-    var isActive = this.filterText !== null && this.filterText !== undefined && this.filterText !== "";
-    return isActive;
-  };
-  PersonFilter.prototype.getApi = function () {
-    console.log("3333333333333333333333333")
-    var these = this;
-    return {
-      getModel: function () {
-        console.log("kkkkkkkkkkkkkkkkkkkkkk")
-        var model = { value: these.filterText.value };
-        return model;
-      },
-      setModel: function (model) {
-        these.eFilterText.value = model.value;
-      }
-    };
-  };
-
-
-  PersonFilter.prototype.getModelAsString = function (model) {
-    console.log("mmmmmmmmmmmmmmmmmmmmmmmmm")
-    return model ? model : "";
-  };
-  PersonFilter.prototype.getModel = function () {
-    
-    return this.filterText;
-  };
-  PersonFilter.prototype.setModel = function () { };
- 
-  return PersonFilter;
-}

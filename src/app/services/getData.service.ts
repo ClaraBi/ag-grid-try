@@ -14,21 +14,84 @@ export class DataService {
     
   }
 
-  getDataService(para, params) {
+  getDataService(para, params, currentPage) {
     let myHeaders = new Headers();
     myHeaders.set('Content-Type', 'application/json');
+
+
+    //try to generate same parameters below---------------------------
 
     var sortJSONP1 = JSON.stringify(para.sortModel).replace("colId", "property");
     var sortJSON = sortJSONP1.replace("sort", "direction");
 
-    var nameFilterInstance = params.api.getFilterModel();
 
+    function FilterObject(operator,value,property) {       //create a new data type FilterObject 
+      this.operator = operator;
+      this.value = value;
+      this.property = property;
+    }
+
+    var filterObjects =[];
+    
+    var nameFilterInstance = params.api.getFilterModel();
+    console.log("nameFilterInstance", nameFilterInstance);//{model: {…}, price: {…}}
     var savedFilters = Object.keys(nameFilterInstance);
+    console.log("savedFilters", savedFilters);//["model", "price"]
+    
+    for (var i = 0; i < savedFilters.length; i++) {
+      var singleOperator = "like";
+      var singleValue = "";
+      var singleProperty = "";
+      var transData = nameFilterInstance[savedFilters[i]];
+      var myOperator = transData['type'];
+
+      if (transData['filter']) {
+        var myValue = transData['filter'];
+      } else {
+        var myValue = transData['value']
+      }
+      
+      
+      console.log("....", myOperator);
+      console.log(".......", myValue);
+      console.log(".............", savedFilters[i]);
+      if (myOperator == "contains") {
+        singleOperator = "like";
+      }
+      if (myOperator == "lessThan") {
+        singleOperator = "lt";
+        myValue = transData['dateFrom'];
+      }
+      if (myOperator == "greaterThan") {
+        singleOperator = "gt";
+        myValue = transData['dateFrom'];
+      }
+      if (myOperator == "equals") {
+        singleOperator = "eq";
+        myValue = transData['dateFrom'];
+      }
+
+
+      singleValue = myValue;
+      singleProperty = savedFilters[i];
+
+      var filterObjectsItem = new FilterObject(singleOperator, singleValue, singleProperty);
+      filterObjects.push(filterObjectsItem);
+
+    }
+
+    
+
+    //--------------------------------------generate end
 
     let myParams = new URLSearchParams();
+    myParams.set('start', para.startRow);
+    myParams.set('page', currentPage);
     myParams.set('limit', '50');
     myParams.set('sort', sortJSON);
-    myParams.set('filter', JSON.stringify(para.filterModel));
+    myParams.set('filter', JSON.stringify(filterObjects));
+    
+    
 
     let options = new RequestOptions({ headers: myHeaders, params: myParams });
     var newData;
@@ -43,6 +106,8 @@ export class DataService {
       });
       var dataAfterSortingAndFiltering = this.sortAndFilter(newData, para.sortModel, para.filterModel);
       var rowsThisPage = dataAfterSortingAndFiltering.slice(para.startRow, para.endRow);
+      //console.log(" rowsThisPage", rowsThisPage)
+
       var lastRow = -1;
       if (dataAfterSortingAndFiltering.length <= para.endRow) {
         lastRow = dataAfterSortingAndFiltering.length;
@@ -55,6 +120,12 @@ export class DataService {
 
 
   sortAndFilter(allOfTheData, sortModel, filterModel) {
+
+    console.log("allOfTheData", allOfTheData);
+   
+    console.log("filterModel", filterModel);
+
+
     let filteredData = this.filterData(filterModel, allOfTheData)
     return this.sortData(sortModel, filteredData);
 
@@ -115,6 +186,9 @@ export class DataService {
 
 
   filterData(filterModel, data) {
+
+    console.log("filterModel2", filterModel);
+    console.log("data", data)
     var filterPresent = filterModel && Object.keys(filterModel).length > 0;
     if (!filterPresent) {
       return data;
@@ -143,11 +217,11 @@ export class DataService {
         }
       }
       if (filterModel.make) {
-        //console.log(filterModel.make);
-        if (item.make.toLowerCase().indexOf(filterModel.make.filter) == -1) {
-          //console.log("filterModel.make.filter: "+filterModel.make.filter);
-          //console.log("item.make: "+item.make);
-          //console.log(filterModel.make.filter.indexOf(item.make));
+        
+        if (item.make.toLowerCase().indexOf(filterModel.make.value) == -1) {
+        //if (item.make.toLowerCase().indexOf(filterModel.make.type) == -1) {
+          
+          
           continue;
         }
 

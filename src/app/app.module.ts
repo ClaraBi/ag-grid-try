@@ -14,9 +14,11 @@ import { HttpModule } from '@angular/http';
 
 import { CheckboxCellComponent } from './checkbox-cell/checkbox-cell.component';
 import { HeaderComponent } from './header-component/header.component';
-import { CustomDateComponent } from './custom-date/custom-date.component';
+
 
 import { DataService } from './services/getData.service';
+import { CustomFilterComponent } from './custom-filter/custom-filter.component';
+import { FormsModule } from '@angular/forms';
 
 const appRoutes: Routes = [
   { path: '', component: MyGridApplicationComponent },
@@ -34,11 +36,13 @@ const appRoutes: Routes = [
         WaybillItemsGridComponent,
         CheckboxCellComponent,
         HeaderComponent,
-        CustomDateComponent
+        
+        CustomFilterComponent
   ],
     entryComponents: [
       CheckboxCellComponent,
-      HeaderComponent
+      HeaderComponent,
+      CustomFilterComponent
     ],
     imports: [
         BrowserModule,
@@ -46,7 +50,8 @@ const appRoutes: Routes = [
             [RedComponentComponent]
         ),
         RouterModule.forRoot(appRoutes),
-        HttpModule
+      HttpModule,
+      FormsModule
     ],
     providers: [DataService],
     bootstrap: [AppComponent]
