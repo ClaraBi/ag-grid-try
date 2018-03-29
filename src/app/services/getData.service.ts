@@ -241,7 +241,7 @@ export class DataService {
       }
 
       if (filterModel.model) {
-        if (item.model.toLowerCase().indexOf(filterModel.model.filter) == -1) {
+        if (item.model.toLowerCase().indexOf(filterModel.model.value) == -1) {
           continue;
         }
 

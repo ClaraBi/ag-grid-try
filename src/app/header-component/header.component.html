@@ -1,53 +1,8 @@
-<!--<div class="col-md-12">
-  <div *ngIf="params.enableMenu" #menuButton class="customHeaderMenuButton col-md-2" (click)="onMenuClicked($event)"><i class="fa {{params.menuIcon}}"></i></div>
-  <div class="customHeaderLabel col-md-2">{{params.displayName}}</div>
-  <div *ngIf="params.enableSorting" (click)="onSortRequested('asc', $event)" [ngClass]="ascSort" class="customSortDownLabel col-md-2">
-    <i class="fa fa-long-arrow-down"></i>
-  </div>
-  <div *ngIf="params.enableSorting" (click)="onSortRequested('desc', $event)" [ngClass]="descSort" class="customSortUpLabel col-md-2">
-    <i class="fa fa-long-arrow-up"></i>
-  </div>
-  <div *ngIf="params.enableSorting" (click)="onSortRequested('', $event)" [ngClass]="noSort" class="customSortRemoveLabel col-md-2">
-    <i class="fa fa-times"></i>
-  </div>
-</div>
-
--->
-<!--<div class="dropdown">
-  <p class="dropdown-toggle" type="button" data-toggle="dropdown" >
-    {{params.displayName}}
-    <span class="caret" ></span>
-  </p>
-  <ul class="dropdown-menu">
-    <li (click)="onSortRequested('asc', $event)" [ngClass]="ascSort">ascSort</li>
-    <li (click)="onSortRequested('desc', $event)" [ngClass]="descSort">descSort</li>
-    <li (click)="onSortRequested('', $event)" [ngClass]="noSort">noSort</li>
-  </ul>
-</div>-->
-<!--<div>
-  <div class="customHeaderLabel">{{params.displayName}}</div>
-  <div *ngIf="params.enableMenu" #menuButton class="customHeaderMenuButton" (click)="onMenuClicked($event)"><span class="caret"></span></div>
-
-
-</div>
-    -->
 
 <div>
-  <div class="customHeaderLabel">{{params.displayName}}</div>
-
-  <div *ngIf="params.enableSorting" (click)="onSortRequested('asc', $event)" [ngClass]="ascSort" class="customSortUpLabel col-md-2">
-    <i class="fas fa-arrow-up"></i>
-  </div>
-  <div *ngIf="params.enableSorting" (click)="onSortRequested('desc', $event)" [ngClass]="descSort" class="customSortDownLabel col-md-2">
-
-    <i class="fas fa-arrow-down"></i>
-  </div>
-
-  <div *ngIf="params.enableSorting" (click)="onSortRequested('', $event)" [ngClass]="noSort" class="customSortRemoveLabel col-md-2">
-    <i class="fa fa-times"></i>
-  </div>
-
-
   <div *ngIf="params.enableMenu" #menuButton class="customHeaderMenuButton" (click)="onMenuClicked($event)"><span class="caret"></span></div>
+  <div class="customHeaderLabel">{{params.displayName}}</div>
+  <div *ngIf="params.enableSorting" (click)="onSortRequested('asc', $event)" [ngClass]="ascSort" class="customSortDownLabel"><i class="fa fa-long-arrow-down"></i></div>
+  <div *ngIf="params.enableSorting" (click)="onSortRequested('desc', $event)" [ngClass]="descSort" class="customSortUpLabel"><i class="fa fa-long-arrow-up"></i></div>
+  <div *ngIf="params.enableSorting" (click)="onSortRequested('', $event)" [ngClass]="noSort" class="customSortRemoveLabel"><i class="fa fa-times"></i></div>
 </div>
-

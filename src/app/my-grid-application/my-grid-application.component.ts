@@ -83,17 +83,17 @@ export class MyGridApplicationComponent  {
                //newRowsAction: "keep",
                //filterOptions: ["contains"]
              //},
-             filter: "CustomFilterComponent"
+             filter: "CustomFilterComponent",
               
-              //menuTabs: ["filterMenuTab", "columnsMenuTab"]
+              menuTabs: ["filterMenuTab", "columnsMenuTab"]
              
           },
             {
               headerName: "Model",
               field: "model",
               cellRendererFramework: RedComponentComponent,
-              filter: 'agTextColumnFilter',
-              
+             // filter: 'agTextColumnFilter',
+              filter: "CustomFilterComponent",
               filterParams: {
                 newRowsAction: "keep",
                 filterOptions: ["contains"]
@@ -227,6 +227,9 @@ export class MyGridApplicationComponent  {
              ];
          }
        };
+
+
+
 
        this.localeText = {
          contains: "Filter"

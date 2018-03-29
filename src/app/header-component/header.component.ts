@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
+import { Component, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
 //import { IHeaderAngularComp } from "ag-grid-angular";
 //import { IHeaderParams } from "ag-grid/main";
 
@@ -8,21 +8,21 @@ import { Component, OnInit, ViewChild, ElementRef, ViewEncapsulation } from '@an
   styleUrls: ['./header.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
 
   params: any;
 
-  ascSort: string;
-  descSort: string;
-  noSort: string;
+  ascSort = 'inactive';
+  descSort = 'inactive';
+  noSort = 'inactive';
 
-  @ViewChild('menuButton') menuButton;
+  @ViewChild('menuButton', { read: ElementRef }) public menuButton;
 
   agInit(params): void {
     this.params = params;
 
     params.column.addEventListener('sortChanged', this.onSortChanged.bind(this));
-    //this.onSortChanged();
+    this.onSortChanged();
   }
 
   onMenuClicked() {
@@ -32,6 +32,7 @@ export class HeaderComponent implements OnInit {
   onSortChanged() {
     this.ascSort = this.descSort = this.noSort = 'inactive';
     if (this.params.column.isSortAscending()) {
+      
       this.ascSort = 'active';
     } else if (this.params.column.isSortDescending()) {
       this.descSort = 'active';
@@ -41,15 +42,7 @@ export class HeaderComponent implements OnInit {
   }
 
   onSortRequested(order, event) {
-    console.log("this.paramssssssssssss", this.params)
     this.params.setSort(order, event.shiftKey);
-  }
-
-
-
-  constructor() { }
-
-  ngOnInit() {
   }
 
 }
